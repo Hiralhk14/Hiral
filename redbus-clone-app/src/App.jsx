@@ -1,22 +1,25 @@
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useAuth } from './contexts/AuthContext'
+import Login from './components/Login'
+import Dashboard from './components/Dashboard'
 import './App.css'
 
 function App() {
+  const { user, loading } = useAuth();
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 bg-primary-500 rounded-full flex items-center justify-center mx-auto mb-4">
+            <span className="text-white text-2xl font-bold">R</span>
+          </div>
+          <p className="text-gray-600">Loading...</p>
+        </div>
       </div>
-      <h1>Vite + React</h1>
-    </>
-  )
+    );
+  }
+
+  return user ? <Dashboard /> : <Login />;
 }
 
 export default App
