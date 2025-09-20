@@ -6,6 +6,9 @@ import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import BusList from './components/BusListPage';
 import SeatSelection from './components/seatSelction';
+import Payment from './components/payment/Payment';
+import PaymentSuccess from './components/payment/PaymentSuccess';
+import PaymentFail from './components/payment/PaymentFail';
 
 function App() {
   const { user, loading } = useAuth();
@@ -37,6 +40,9 @@ function App() {
             <Route path="/buslist" element={<BusList />} />
             <Route path="*" element={<Navigate to="/dashboard" replace />} />
             <Route path="/seat-selection/:busId" element={<SeatSelection />} />
+            <Route path="/payment" element={<Payment />} />
+            <Route path="/payment-success" element={<PaymentSuccess />} />
+            <Route path="/payment-fail" element={<PaymentFail />} />
           </>
         )}
       </Routes>
