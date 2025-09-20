@@ -1,9 +1,11 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import './App.css';
+
 import { useAuth } from './contexts/AuthContext';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import BusList from './components/BusListPage';
-import './App.css';
+import SeatSelection from './components/seatSelction';
 
 function App() {
   const { user, loading } = useAuth();
@@ -34,6 +36,7 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/buslist" element={<BusList />} />
             <Route path="*" element={<Navigate to="/dashboard" replace />} />
+            <Route path="/seat-selection/:busId" element={<SeatSelection />} />
           </>
         )}
       </Routes>

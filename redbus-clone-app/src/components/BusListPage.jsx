@@ -100,6 +100,18 @@ const BusList = () => {
     return 'bg-orange-500';
   };
 
+const handleViewSeats = (bus) => {
+  const params = new URLSearchParams({
+    operator: bus?.operatorName,
+    route: `${bus.route?.from} - ${bus?.route?.to}`,
+    time: `${bus?.departureTime} - ${bus?.arrivalTime}`,
+    price: bus?.price?.toString(),
+    seats: bus?.seatsAvailable?.toString()
+  });
+  
+  navigate(`/seat-selection/${bus?.id}?${params?.toString()}`);
+};
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -230,16 +242,16 @@ const BusList = () => {
                       { value: '1000-1500', label: '₹1000 - ₹1500' },
                       { value: '1500-2000', label: 'Above ₹1500' }
                     ].map(option => (
-                      <label key={option.value} className="flex items-center">
+                      <label key={option?.value} className="flex items-center">
                         <input
                           type="radio"
                           name="priceRange"
-                          value={option.value}
-                          checked={filters.priceRange === option.value}
-                          onChange={(e) => handleFilterChange('priceRange', e.target.value)}
+                          value={option?.value}
+                          checked={filters?.priceRange === option?.value}
+                          onChange={(e) => handleFilterChange('priceRange', e?.target?.value)}
                           className="mr-2"
                         />
-                        <span className="text-sm">{option.label}</span>
+                        <span className="text-sm">{option?.label}</span>
                       </label>
                     ))}
                   </div>
@@ -324,7 +336,9 @@ const BusList = () => {
                           <div className="text-sm text-gray-600">Starts from</div>
                           <div className="text-2xl font-bold">₹{bus?.price}</div>
                           <div className="text-sm text-green-600 mb-2">{bus?.seatsAvailable} Seats available</div>
-                          <button className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-md text-sm font-medium transition-colors flex items-center space-x-1">
+                          <button
+                            onClick={() => handleViewSeats(bus)}
+                            className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-md text-sm font-medium transition-colors flex items-center space-x-1">
                             <Eye className="h-4 w-4" />
                             <span>View Seats</span>
                           </button>

@@ -9,7 +9,7 @@ export const busData = [
     duration: "14h 33m",
     rating: 4.3,
     price: 812,
-    seatsAvailable: 36,
+    seatsAvailable: 1,
     amenities: ["Live Tracking", "A/C", "Sleeper", "Charging Point"],
     travelDate: "2025-9-25"
   },
@@ -23,7 +23,7 @@ export const busData = [
     duration: "16h 21m",
     rating: 4.4,
     price: 741,
-    seatsAvailable: 86,
+    seatsAvailable: 5,
     amenities: ["Live Tracking", "A/C", "Sleeper", "Water Bottle"],
     travelDate: "2025-9-20"
   },
@@ -37,7 +37,7 @@ export const busData = [
     duration: "7h 30m",
     rating: 4.1,
     price: 650,
-    seatsAvailable: 24,
+    seatsAvailable: 19,
     amenities: ["A/C", "Sleeper", "Reading Light"],
     travelDate: "2025-9-20"
   },
@@ -51,7 +51,7 @@ export const busData = [
     duration: "7h 30m",
     rating: 4.2,
     price: 890,
-    seatsAvailable: 18,
+    seatsAvailable: 19,
     amenities: ["Live Tracking", "A/C", "Semi Sleeper", "Blanket"],
     travelDate: "2025-9-26"
   },
@@ -65,7 +65,7 @@ export const busData = [
     duration: "12h 30m",
     rating: 4.5,
     price: 1200,
-    seatsAvailable: 42,
+    seatsAvailable: 6,
     amenities: ["Live Tracking", "A/C", "Sleeper", "Entertainment", "Charging Point"],
     travelDate: "2025-9-26"
   },
@@ -79,7 +79,7 @@ export const busData = [
     duration: "13h 15m",
     rating: 4.3,
     price: 1150,
-    seatsAvailable: 28,
+    seatsAvailable: 20,
     amenities: ["A/C", "Sleeper", "Water Bottle", "Blanket"],
     travelDate: "2025-9-22"
   },
@@ -93,7 +93,7 @@ export const busData = [
     duration: "13h 30m",
     rating: 4.0,
     price: 1100,
-    seatsAvailable: 35,
+    seatsAvailable: 15,
     amenities: ["Live Tracking", "A/C", "Sleeper"],
     travelDate: "2025-9-27"
   },
@@ -107,7 +107,7 @@ export const busData = [
     duration: "8h 30m",
     rating: 3.9,
     price: 750,
-    seatsAvailable: 22,
+    seatsAvailable: 10,
     amenities: ["A/C", "Semi Sleeper", "Reading Light"],
     travelDate: "2025-9-25"
   },
@@ -121,7 +121,7 @@ export const busData = [
     duration: "8h 30m",
     rating: 4.2,
     price: 820,
-    seatsAvailable: 31,
+    seatsAvailable: 22,
     amenities: ["Live Tracking", "A/C", "Sleeper", "Entertainment"],
     travelDate: "2025-9-26"
   },
@@ -135,7 +135,7 @@ export const busData = [
     duration: "18h 00m",
     rating: 4.4,
     price: 1500,
-    seatsAvailable: 25,
+    seatsAvailable: 5,
     amenities: ["Live Tracking", "A/C", "Sleeper", "Entertainment", "Meal"],
     travelDate: "2025-9-25"
   },
@@ -149,7 +149,7 @@ export const busData = [
     duration: "18h 00m",
     rating: 4.3,
     price: 1450,
-    seatsAvailable: 19,
+    seatsAvailable: 20,
     amenities: ["Live Tracking", "A/C", "Sleeper", "Charging Point"],
     travelDate: "2025-9-27"
   },
@@ -163,7 +163,7 @@ export const busData = [
     duration: "8h 30m",
     rating: 4.1,
     price: 680,
-    seatsAvailable: 40,
+    seatsAvailable: 19,
     amenities: ["A/C", "Semi Sleeper", "Water Bottle"],
     travelDate: "2025-9-25"
   },
@@ -177,7 +177,7 @@ export const busData = [
     duration: "8h 30m",
     rating: 4.0,
     price: 720,
-    seatsAvailable: 33,
+    seatsAvailable: 9,
     amenities: ["Live Tracking", "A/C", "Sleeper"],
     travelDate: "2025-9-26"
   },
@@ -191,7 +191,7 @@ export const busData = [
     duration: "4h 30m",
     rating: 3.8,
     price: 350,
-    seatsAvailable: 28,
+    seatsAvailable: 15,
     amenities: ["A/C", "Sleeper"],
     travelDate: "2025-9-25"
   },
@@ -205,7 +205,7 @@ export const busData = [
     duration: "4h 30m",
     rating: 4.0,
     price: 380,
-    seatsAvailable: 45,
+    seatsAvailable: 19,
     amenities: ["A/C", "Semi Sleeper", "Reading Light"],
     travelDate: "2025-9-26"
   }
