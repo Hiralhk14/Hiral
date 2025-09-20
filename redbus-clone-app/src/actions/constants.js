@@ -1,0 +1,4 @@
+export const SEARCH_BUSES = 'SEARCH_BUSES';
+export const SET_SEARCH_PARAMS = 'SET_SEARCH_PARAMS';
+export const SET_LOADING = 'SET_LOADING';
+export const CLEAR_SEARCH = 'CLEAR_SEARCH';

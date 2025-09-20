@@ -15,9 +15,12 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const savedUser = localStorage?.getItem('redbus_user');
-    if (savedUser) {
-      setUser(JSON?.parse(savedUser));
+    setLoading(true);
+    const storedUser = localStorage.getItem('redbus_user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    } else {
+      setUser(null);
     }
     setLoading(false);
   }, []);
