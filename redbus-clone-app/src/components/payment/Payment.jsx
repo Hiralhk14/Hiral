@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
 import InputBox from '../../shared/ui/input';
+import Header from '../../shared/component';
 
 const Payment = () => {
   const navigate = useNavigate();
@@ -22,28 +22,7 @@ const Payment = () => {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      <header className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between py-4">
-            <div className="flex items-center space-x-4">
-              <button
-                onClick={() => navigate(-1)}
-                className="flex items-center space-x-2 text-slate-600 hover:text-red-600 transition-colors"
-              >
-                <ArrowLeft className="h-5 w-5" />
-                <span>Back</span>
-              </button>
-
-              <div className="flex items-center">
-                <div className="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center">
-                  <span className="text-white text-lg font-bold">R</span>
-                </div>
-                <h1 className="ml-3 text-2xl font-bold text-slate-900">RedBus</h1>
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
+      <Header pageTitle="Payment" />
 
       <div className="max-w-md mx-auto px-4 py-6">
         <div className="bg-white rounded-lg shadow-md p-6 space-y-4">
@@ -62,7 +41,7 @@ const Payment = () => {
             type="text"
             label="Card Number"
             value={cardNumber}
-            onChange={(e) => setCardNumber(e.target.value)}
+            onChange={(e) => setCardNumber(e?.target?.value)}
             placeholder="Card Number"
           />
 
@@ -73,7 +52,7 @@ const Payment = () => {
             label="Cardholder Name"
             placeholder="Name on Card"
             value={cardName}
-            onChange={(e) => setCardName(e.target.value)}
+            onChange={(e) => setCardName(e?.target?.value)}
             className="w-full p-2 border rounded-md"
           />
           <div className="flex gap-2">
@@ -84,7 +63,7 @@ const Payment = () => {
               label="Expiry Date"
               placeholder="MM/YY"
               value={expiry}
-              onChange={(e) => setExpiry(e.target.value)}
+              onChange={(e) => setExpiry(e?.target?.value)}
               className="w-1/2 p-2 border rounded-md"
             />
             <InputBox
@@ -94,7 +73,7 @@ const Payment = () => {
               type="text"
               placeholder="CVV"
               value={cvv}
-              onChange={(e) => setCvv(e.target.value)}
+              onChange={(e) => setCvv(e?.target?.value)}
               className="w-1/2 p-2 border rounded-md"
             />
           </div>

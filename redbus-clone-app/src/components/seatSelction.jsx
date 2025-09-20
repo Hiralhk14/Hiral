@@ -1,18 +1,19 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
+import Header from '../shared/component';
 
 const SeatSelection = () => {
   const navigate = useNavigate();
   const { busId } = useParams();
   const [searchParams] = useSearchParams();
 
- const operatorName = searchParams.get('operator') || 'Bus Operator';
+  const operatorName = searchParams.get('operator') || 'Bus Operator';
   const route = searchParams.get('route') || 'City - City';
   const time = searchParams.get('time') || '00:00 - 00:00';
   const price = parseInt(searchParams.get('price')) || 1000;
   const totalSeats = parseInt(searchParams.get('seats')) || 40;
-  
+
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [seatLayout, setSeatLayout] = useState([]);
 
@@ -58,7 +59,7 @@ const SeatSelection = () => {
         const newSelected = !seat?.isSelected;
 
         if (newSelected) {
-          if (selectedSeats?.length < 6) { 
+          if (selectedSeats?.length < 6) {
             setSelectedSeats(prev => [...prev, seatNumber]);
             return { ...seat, isSelected: true };
           }
@@ -77,7 +78,7 @@ const SeatSelection = () => {
   };
 
   const handleProceedToPayment = () => {
-   if (selectedSeats?.length > 0) {
+    if (selectedSeats?.length > 0) {
       const bookingData = {
         busId,
         operatorName,
@@ -154,28 +155,7 @@ const SeatSelection = () => {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      <header className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between py-4">
-            <div className="flex items-center space-x-4">
-              <button
-                onClick={() => navigate(-1)}
-                className="flex items-center space-x-2 text-slate-600 hover:text-red-600 transition-colors"
-              >
-                <ArrowLeft className="h-5 w-5" />
-                <span>Back</span>
-              </button>
-
-              <div className="flex items-center">
-                <div className="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center">
-                  <span className="text-white text-lg font-bold">R</span>
-                </div>
-                <h1 className="ml-3 text-2xl font-bold text-slate-900">RedBus</h1>
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
+      <Header pageTitle="Seat Selection" />
 
       <div className="bg-white border-b">
         <div className="max-w-4xl mx-auto px-4 py-4">

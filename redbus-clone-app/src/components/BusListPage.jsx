@@ -134,7 +134,6 @@ const handleViewSeats = (bus) => {
                 className="flex items-center space-x-2 hover:bg-gray-100 px-3 py-2 rounded-md transition-colors"
               >
                 <ArrowLeft className="h-5 w-5" />
-                <span>Back</span>
               </button>
 
               <div className="flex items-center">

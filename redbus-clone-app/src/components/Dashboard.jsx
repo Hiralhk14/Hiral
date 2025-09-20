@@ -8,6 +8,8 @@ import bgImage from '../assets/images/bg.webp';
 import BusSearchService from '../services/busSearch';
 import { useAuth } from '../contexts/AuthContext';
 import { setLoading, setSearchParams, searchBuses } from '../actions/bus';
+import InputBox from '../shared/ui/input';
+import Button from '../shared/ui/button';
 
 const Dashboard = () => {
   const { user, logout } = useAuth();
@@ -44,10 +46,10 @@ const Dashboard = () => {
     try {
       const results = await BusSearchService?.searchBuses(searchData);
       dispatch(searchBuses(results));
-      
+
       localStorage?.setItem('searchResults', JSON?.stringify(results));
       localStorage?.setItem('searchParams', JSON?.stringify(searchData));
-      
+
       navigate('/buslist');
     } catch (error) {
       console.error('Search error:', error);
@@ -68,7 +70,12 @@ const Dashboard = () => {
             </div>
             <div className="flex items-center space-x-6">
               <nav className="hidden md:flex space-x-6">
-                <a href="#" className="text-gray-700 hover:text-red-600 font-medium">My Bookings</a>
+                <button
+                  onClick={() => navigate("/booking-history")}
+                  className="text-gray-700 hover:text-red-600 font-medium"
+                >
+                  My Bookings
+                </button>
               </nav>
               <div className="flex items-center space-x-4">
                 <div className="text-sm text-gray-700">
@@ -95,58 +102,53 @@ const Dashboard = () => {
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <div className="relative">
                 <div className="relative">
-                  <MapPin className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
-                  <input
+                  <InputBox
+                    id="from"
+                    name="from"
                     type="text"
-                    placeholder="From"
                     value={fromCity}
                     onChange={(e) => setFromCity(e?.target?.value)}
-                    className="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                    placeholder="From"
+                    Icon={MapPin}
                   />
                 </div>
               </div>
 
               <div className="relative">
                 <div className="relative">
-                  <MapPin className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
-                  <input
+                  <InputBox
+                    id="from"
+                    name="from"
                     type="text"
-                    placeholder="To"
                     value={toCity}
                     onChange={(e) => setToCity(e?.target?.value)}
-                    className="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                    placeholder="From"
+                    Icon={MapPin}
                   />
                 </div>
               </div>
 
               <div className="relative">
                 <div className="relative">
-                  <Calendar className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
-                  <input
+                  <InputBox
+                    id="date"
+                    name="date"
                     type="date"
                     value={travelDate}
                     onChange={(e) => setTravelDate(e?.target?.value)}
-                    className="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                    placeholder="Select Date"
+                    Icon={Calendar}
                   />
                 </div>
               </div>
 
               <div className="flex items-end">
-                <button
+                <Button
+                  text="Search Buses"
                   onClick={handleSearch}
-                  disabled={isLoading}
-                  className="w-full bg-red-600 hover:bg-red-700 disabled:bg-red-400 text-white py-3 px-6 rounded-md font-medium transition-colors flex items-center justify-center space-x-2"
-                >
-                  {isLoading ? (
-                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                  ) : (
-                    <>
-                      <Search className="h-5 w-5" />
-                      <span>Search Buses</span>
-                    </>
-                  )}
-                </button>
-                </div>
+                  icon={Search}
+                />
+              </div>
             </div>
           </div>
         </div>
