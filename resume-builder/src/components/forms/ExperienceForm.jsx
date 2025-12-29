@@ -95,6 +95,7 @@ const ExperienceForm = () => {
               label="Job Title"
               id="jobTitle"
               placeholder="e.g. Senior Software Engineer"
+              required
               {...register('jobTitle', { required: 'Job title is required' })}
               error={errors?.jobTitle?.message}
             />
@@ -103,6 +104,7 @@ const ExperienceForm = () => {
               label="Company"
               id="company"
               placeholder="Company Name"
+              required
               {...register('company', { required: 'Company name is required' })}
               error={errors?.company?.message}
             />
@@ -124,6 +126,7 @@ const ExperienceForm = () => {
                 id="startDate"
                 type="month"
                 placeholder="Start Date"
+                required
                 {...register('startDate', { required: 'Start date is required' })}
                 error={errors?.startDate?.message}
               />

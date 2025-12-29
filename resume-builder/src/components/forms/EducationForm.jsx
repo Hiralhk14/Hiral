@@ -7,6 +7,7 @@ import { addEducation, updateEducation, removeEducation } from '@/store/resumeSl
 
 import Input from '@/components/ui/Input';
 import Button from '@/components/ui/Button';
+import RequiredIndicator from '../ui/RequiredIndicator';
 
 const EducationForm = () => {
   const dispatch = useDispatch();
@@ -94,6 +95,7 @@ const EducationForm = () => {
               label="Institution"
               id="institution"
               placeholder="University Name"
+              required
               {...register('institution', { required: 'Institution is required' })}
               error={errors?.institution?.message}
             />
@@ -102,6 +104,7 @@ const EducationForm = () => {
               label="Degree"
               id="degree"
               placeholder="e.g. Bachelor of Science"
+              required
               {...register('degree', { required: 'Degree is required' })}
               error={errors?.degree?.message}
             />
@@ -115,13 +118,14 @@ const EducationForm = () => {
             
             <div className="space-y-2">
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                Time Period
+                Time Period<RequiredIndicator/>
               </label>
               <div className="grid grid-cols-2 gap-2">
                 <Input
                   id="startYear"
                   type="number"
                   placeholder="Start Year"
+                  required
                   {...register('startYear', {
                     required: 'Start year is required',
                     min: {
@@ -140,6 +144,7 @@ const EducationForm = () => {
                     id="endYear"
                     type="number"
                     placeholder="End Year"
+                    required
                     disabled={watch('current')}
                     {...register('endYear', {
                       validate: (value) => {

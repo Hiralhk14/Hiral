@@ -89,6 +89,7 @@ const CertificationsForm = () => {
               label="Certification Name"
               id="name"
               placeholder="e.g. AWS Certified Solutions Architect"
+              required
               {...register('name', { required: 'Certification name is required' })}
               error={errors?.name?.message}
             />
@@ -97,6 +98,7 @@ const CertificationsForm = () => {
               label="Issuing Organization"
               id="issuer"
               placeholder="e.g. Amazon Web Services"
+              required
               {...register('issuer', { required: 'Issuer is required' })}
               error={errors?.issuer?.message}
             />

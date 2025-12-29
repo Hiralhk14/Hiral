@@ -8,6 +8,7 @@ import { addProject, updateProject, removeProject } from '@/store/resumeSlice';
 import Input from '@/components/ui/Input';
 import Textarea from '@/components/ui/Textarea';
 import Button from '@/components/ui/Button';
+import RequiredIndicator from '../ui/RequiredIndicator';
 
 const ProjectsForm = () => {
   const dispatch = useDispatch();
@@ -113,13 +114,14 @@ const ProjectsForm = () => {
               label="Project Name"
               id="name"
               placeholder="e.g. E-commerce Website"
+              required
               {...register('name', { required: 'Project name is required' })}
               error={errors?.name?.message}
             />
             
             <div className="space-y-2">
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                Time Period
+                Time Period <RequiredIndicator/>
               </label>
               <div className="grid grid-cols-2 gap-2">
                 <Input

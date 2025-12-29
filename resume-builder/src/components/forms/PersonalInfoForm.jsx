@@ -64,6 +64,7 @@ const PersonalInfoForm = () => {
           label="Full Name"
           id="fullName"
           placeholder="John Doe"
+          required
           {...register('fullName', { required: 'Full name is required' })}
           error={errors?.fullName?.message}
         />
@@ -72,6 +73,7 @@ const PersonalInfoForm = () => {
           label="Job Title"
           id="jobTitle"
           placeholder="e.g. Software Engineer"
+          required
           {...register('jobTitle', { required: 'Job title is required' })}
           error={errors?.jobTitle?.message}
         />
@@ -81,6 +83,7 @@ const PersonalInfoForm = () => {
           id="email"
           type="email"
           placeholder="john@example.com"
+          required
           {...register('email', {
             required: 'Email is required',
             pattern: {
@@ -95,6 +98,7 @@ const PersonalInfoForm = () => {
           label="Phone"
           id="phone"
           placeholder="(123) 456-7890"
+          required
           {...register('phone', {
             required: 'Phone number is required',
             pattern: {
