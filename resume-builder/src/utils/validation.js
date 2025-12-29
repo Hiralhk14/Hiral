@@ -1,24 +1,24 @@
-export const validateEmail = (email) => {
+export const validateEmail = (value) => {
   const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-  return re.test(String(email).toLowerCase());
+  return re.test(value) || 'Invalid email address';
 };
 
-export const validatePhone = (phone) => {
-  const re = /^[0-9\-\+\(\)\s]+$/;
-  return re.test(phone);
+export const validatePhone = (value) => {
+  const re = /^\d{10}$/;
+  return re.test(value) || 'Phone number must be exactly 10 digits';
 };
 
-export const validateUrl = (url) => {
+export const validateUrl = (value) => {
   try {
-    new URL(url);
+    new URL(value);
     return true;
-  } catch (_) {
-    return false;
+  } catch {
+    return 'Invalid URL';
   }
 };
 
 export const validateRequired = (value) => {
-  return value && value.trim() !== '';
+  return (value && value.trim() !== '') || 'This field is required';
 };
 
 export const validateDate = (date) => {

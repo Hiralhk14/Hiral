@@ -8,12 +8,13 @@ import { updatePersonalInfo } from '@/store/resumeSlice';
 import Input from '@/components/ui/Input';
 import Textarea from '@/components/ui/Textarea';
 import Button from '../ui/Button';
+import { validation } from '@/utils/validator';
 
 const PersonalInfoForm = () => {
   const dispatch = useDispatch();
   const personalInfo = useSelector((state) => state.resume.personalInfo);
   const hasInitialized = useRef(false);
-  
+
   const { register, handleSubmit, formState: { errors }, reset } = useForm({
     defaultValues: {
       fullName: '',
@@ -68,7 +69,7 @@ const PersonalInfoForm = () => {
           {...register('fullName', { required: 'Full name is required' })}
           error={errors?.fullName?.message}
         />
-        
+
         <Input
           label="Job Title"
           id="jobTitle"
@@ -77,80 +78,73 @@ const PersonalInfoForm = () => {
           {...register('jobTitle', { required: 'Job title is required' })}
           error={errors?.jobTitle?.message}
         />
-        
+
         <Input
           label="Email"
           id="email"
           type="email"
           placeholder="john@example.com"
           required
-          {...register('email', {
-            required: 'Email is required',
-            pattern: {
-              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-              message: 'Invalid email address',
-            },
-          })}
+          {...register('email', validation?.email)}
           error={errors?.email?.message}
         />
-        
+
         <Input
           label="Phone"
           id="phone"
-          placeholder="(123) 456-7890"
+          type="tel"
+          inputMode="numeric"
+          placeholder="1234567890"
           required
-          {...register('phone', {
-            required: 'Phone number is required',
-            pattern: {
-              value: /^[0-9\-\+\(\)\s]+$/,
-              message: 'Invalid phone number',
-            },
-          })}
+          {...register('phone', validation?.phone)}
+          onInput={(e) => {
+            e.target.value = e?.target?.value?.replace(/\D/g, '')?.slice(0, 10);
+          }}
           error={errors?.phone?.message}
         />
-        
+
         <Input
           label="Address"
           id="address"
           placeholder="123 Main St"
           {...register('address')}
         />
-        
+
         <Input
           label="City"
           id="city"
           placeholder="City"
           {...register('city')}
         />
-        
+
         <Input
           label="Country"
           id="country"
           placeholder="Country"
           {...register('country')}
         />
-        
+
         <Input
           label="Postal Code"
           id="postalCode"
           placeholder="Postal Code"
           {...register('postalCode')}
         />
-        
+
         <Input
           label="LinkedIn"
           id="linkedin"
           placeholder="linkedin.com/in/username"
           {...register('linkedin')}
         />
-        
+
         <Input
           label="GitHub"
           id="github"
           placeholder="github.com/username"
           {...register('github')}
         />
-        
+
         <Input
           label="Website"
           id="website"
@@ -158,7 +152,7 @@ const PersonalInfoForm = () => {
           {...register('website')}
         />
       </div>
-      
+
       <div>
         <Textarea
           label="Professional Summary"
@@ -168,7 +162,7 @@ const PersonalInfoForm = () => {
           {...register('summary')}
         />
       </div>
-      
+
       <div className="flex justify-end pt-4 border-t border-gray-200 dark:border-gray-700">
         <Button type="submit" variant="primary">
           Save Changes
