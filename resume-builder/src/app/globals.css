@@ -27,3 +27,11 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Hide Next.js dev indicator (N logo) */
+#__next-dev-overlay,
+[data-nextjs-toast],
+[data-nextjs-toast-wrapper],
+[data-nextjs-dev-overlay] {
+  display: none !important;
+}
