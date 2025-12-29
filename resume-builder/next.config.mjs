@@ -3,7 +3,7 @@ const nextConfig = {
     devIndicators: {
         appIsrStatus: false,
         buildActivity: false,
-        buildActivityPosition: 'bottom-right', // optional
+        // buildActivityPosition: false, // optional
     },
 };
 export default nextConfig;

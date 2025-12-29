@@ -1,0 +1,23 @@
+'use client';
+
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import { ThemeProvider } from 'next-themes';
+import { store, persistor } from '@/store';
+
+export function Providers({ children }) {
+  return (
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
+      </PersistGate>
+    </Provider>
+  );
+}
