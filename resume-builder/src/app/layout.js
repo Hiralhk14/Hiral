@@ -32,7 +32,7 @@ export default function RootLayout({ children }) {
         <Providers>
           {children}
           <Toaster 
-            position="bottom-right"
+            position="top-right"
             toastOptions={{
               className: "!bg-white !text-gray-900 dark:!bg-gray-800 dark:!text-gray-100 shadow-lg",
               duration: 3000,
