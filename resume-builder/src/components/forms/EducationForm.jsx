@@ -14,16 +14,26 @@ const EducationForm = () => {
   const education = useSelector((state) => state.resume.education);
   const [isAdding, setIsAdding] = useState(false);
   const [editingId, setEditingId] = useState(null);
-  
+
   const {
     register,
     handleSubmit,
     reset,
     setValue,
     watch,
+    trigger,
     formState: { errors },
-  } = useForm();
-  
+  } = useForm({
+    mode: 'onTouched',
+    defaultValues: {
+      institution: '',
+      degree: '',
+      fieldOfStudy: '',
+      startDate: '',
+      endDate: '',
+      isCurrent: false,
+    }
+  });
   const handleAdd = () => {
     reset({
       institution: '',
@@ -37,7 +47,7 @@ const EducationForm = () => {
     setEditingId(null);
     setIsAdding(true);
   };
-  
+
   const handleEdit = (edu) => {
     setValue('institution', edu?.institution);
     setValue('degree', edu?.degree);
@@ -49,29 +59,45 @@ const EducationForm = () => {
     setEditingId(edu?.id);
     setIsAdding(true);
   };
-  
+
   const handleCancel = () => {
     setIsAdding(false);
     setEditingId(null);
   };
-  
-  const onSubmit = (data) => {
-    if (editingId) {
-      dispatch(updateEducation({ id: editingId, ...data }));
-    } else {
-      dispatch(addEducation(data));
+
+  const onSubmit = async (data, e) => {
+    e?.preventDefault();
+
+    // Trigger validation for all fields
+    const isValid = await trigger();
+
+    if (!isValid) {
+      toast.error('Please fill in all required fields correctly');
+      return;
     }
+
+    const educationData = {
+      ...data,
+      id: editingId || Date?.now()?.toString(),
+    };
+
+    if (editingId) {
+      dispatch(updateEducation(educationData));
+    } else {
+      dispatch(addEducation(educationData));
+    }
+
     reset();
     setIsAdding(false);
     setEditingId(null);
   };
-  
+
   const handleRemove = (id) => {
     if (confirm('Are you sure you want to remove this education entry?')) {
       dispatch(removeEducation(id));
     }
   };
-  
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
@@ -87,38 +113,55 @@ const EducationForm = () => {
           Add Education
         </Button>
       </div>
-      
+
       {(isAdding || editingId !== null) && (
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg" noValidate>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Input
               label="Institution"
               id="institution"
-              placeholder="University Name"
               required
-              {...register('institution', { required: 'Institution is required' })}
+              {...register('institution', {
+                required: 'Institution name is required',
+                minLength: {
+                  value: 2,
+                  message: 'Institution name must be at least 2 characters'
+                }
+              })}
               error={errors?.institution?.message}
             />
-            
+
             <Input
               label="Degree"
               id="degree"
-              placeholder="e.g. Bachelor of Science"
               required
-              {...register('degree', { required: 'Degree is required' })}
+              {...register('degree', {
+                required: 'Degree is required',
+                minLength: {
+                  value: 2,
+                  message: 'Degree must be at least 2 characters'
+                }
+              })}
               error={errors?.degree?.message}
             />
-            
+
             <Input
               label="Field of Study"
               id="fieldOfStudy"
-              placeholder="e.g. Computer Science"
-              {...register('fieldOfStudy')}
+              required
+              {...register('fieldOfStudy', {
+                required: 'Field of study is required',
+                minLength: {
+                  value: 2,
+                  message: 'Field of study must be at least 2 characters'
+                }
+              })}
+              error={errors?.fieldOfStudy?.message}
             />
-            
+
             <div className="space-y-2">
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                Time Period<RequiredIndicator/>
+                Time Period<RequiredIndicator />
               </label>
               <div className="grid grid-cols-2 gap-2">
                 <Input
@@ -179,7 +222,7 @@ const EducationForm = () => {
                 </div>
               </div>
             </div>
-            
+
             <Input
               label="Grade (Optional)"
               id="grade"
@@ -187,7 +230,7 @@ const EducationForm = () => {
               {...register('grade')}
             />
           </div>
-          
+
           <div className="flex justify-end space-x-3 pt-2">
             <Button
               type="button"
@@ -203,7 +246,7 @@ const EducationForm = () => {
           </div>
         </form>
       )}
-      
+
       <div className="space-y-4">
         {education?.length === 0 ? (
           <div className="text-center py-8 text-gray-500 dark:text-gray-400">

@@ -13,80 +13,82 @@ const SkillsForm = () => {
   const skills = useSelector((state) => state.resume.skills);
   const [isAdding, setIsAdding] = useState(false);
   const [editingId, setEditingId] = useState(null);
-  const [skillInput, setSkillInput] = useState('');
   const [skillLevel, setSkillLevel] = useState('intermediate');
-  
+
   const {
     register,
     handleSubmit,
     reset,
     setValue,
+    trigger,
     formState: { errors },
-  } = useForm();
-  
+  } = useForm({
+    mode: 'onTouched',
+    defaultValues: {
+      skill: '',
+      level: 'intermediate'
+    }
+  });
+
   const handleAdd = () => {
     reset({
       name: '',
       level: 'intermediate',
     });
-    setSkillInput('');
     setSkillLevel('intermediate');
     setEditingId(null);
     setIsAdding(true);
   };
-  
+
   const handleEdit = (skill) => {
     setSkillInput(skill?.name);
     setSkillLevel(skill?.level || 'intermediate');
     setEditingId(skill?.id);
     setIsAdding(true);
   };
-  
+
   const handleCancel = () => {
     setIsAdding(false);
     setEditingId(null);
   };
-  
-  const onSubmit = (data) => {
-    if (editingId) {
-      dispatch(updateSkill({ id: editingId, ...data }));
-    } else {
-      dispatch(addSkill(data));
-    }
-    setIsAdding(false);
-    setEditingId(null);
-  };
-  
+
+
   const handleRemove = (id) => {
     if (confirm('Are you sure you want to remove this skill?')) {
       dispatch(removeSkill(id));
     }
   };
-  
-  const handleSkillInputChange = (e) => {
-    setSkillInput(e?.target?.value);
-  };
-  
+
   const handleSkillLevelChange = (e) => {
     setSkillLevel(e?.target?.value);
   };
-  
-  const handleAddSkill = (e) => {
-    e.preventDefault();
-    if (skillInput?.trim()) {
-      if (editingId) {
-        dispatch(updateSkill({ id: editingId, name: skillInput?.trim(), level: skillLevel }));
-      } else {
-        dispatch(addSkill({ name: skillInput?.trim(), level: skillLevel }));
-      }
-      reset();
-      setSkillInput('');
-      setSkillLevel('intermediate');
-      setEditingId(null);
-      setIsAdding(false);
+
+  const handleAddSkill = (data) => {
+    const skillName = data?.skill?.trim();
+
+    const skillExists = skills.some(
+      skill => skill?.name?.toLowerCase() === skillName?.toLowerCase() &&
+        (!editingId || skill?.id !== editingId)
+    );
+
+    if (skillExists) {
+      toast.error('This skill already exists');
+      return;
     }
+
+    if (editingId) {
+      dispatch(updateSkill({ id: editingId, name: skillName, level: skillLevel }));
+    } else {
+      dispatch(addSkill({ name: skillName, level: skillLevel }));
+    }
+
+    reset();
+    setSkillLevel('intermediate');
+    setEditingId(null);
+    setIsAdding(false);
   };
-  
+
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
@@ -102,19 +104,26 @@ const SkillsForm = () => {
           Add Skill
         </Button>
       </div>
-      
+
       {(isAdding || editingId !== null) && (
-        <form onSubmit={handleAddSkill} className="space-y-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+        <form onSubmit={handleSubmit(handleAddSkill)} className="space-y-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg" noValidate>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="md:col-span-2">
               <Input
                 label="Skill"
                 id="skill"
-                placeholder="e.g. JavaScript, Python, Project Management"
-                value={skillInput}
-                onChange={handleSkillInputChange}
+                placeholder="e.g. JavaScript"
                 required
+                {...register('skill', {
+                  required: 'Skill name is required',
+                  minLength: {
+                    value: 2,
+                    message: 'Skill must be at least 2 characters'
+                  }
+                })}
+                error={errors?.skill?.message}
               />
+
             </div>
             <div>
               <label htmlFor="level" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
@@ -133,7 +142,7 @@ const SkillsForm = () => {
               </select>
             </div>
           </div>
-          
+
           <div className="flex justify-end space-x-3 pt-2">
             <Button
               type="button"
@@ -149,7 +158,7 @@ const SkillsForm = () => {
           </div>
         </form>
       )}
-      
+
       <div className="space-y-4">
         {skills?.length === 0 ? (
           <div className="text-center py-8 text-gray-500 dark:text-gray-400">

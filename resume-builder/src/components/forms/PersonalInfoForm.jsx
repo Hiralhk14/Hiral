@@ -15,7 +15,8 @@ const PersonalInfoForm = () => {
   const personalInfo = useSelector((state) => state.resume.personalInfo);
   const hasInitialized = useRef(false);
 
-  const { register, handleSubmit, formState: { errors }, reset } = useForm({
+  const { register, handleSubmit, formState: { errors }, reset, trigger } = useForm({
+    mode: 'onTouched',
     defaultValues: {
       fullName: '',
       jobTitle: '',
@@ -53,20 +54,36 @@ const PersonalInfoForm = () => {
     }
   }, [personalInfo, reset]);
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data, e) => {
+    e?.preventDefault();
+    
+    // Trigger validation for all fields
+    const isValid = await trigger();
+    
+    if (!isValid) {
+      toast.error('Please fill in all required fields correctly');
+      return;
+    }
+    
     dispatch(updatePersonalInfo(data));
     toast.success('Personal information saved successfully!');
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6" noValidate>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Input
           label="Full Name"
           id="fullName"
           placeholder="John Doe"
           required
-          {...register('fullName', { required: 'Full name is required' })}
+          {...register('fullName', { 
+            required: 'Full name is required',
+            minLength: {
+              value: 2,
+              message: 'Full name must be at least 2 characters'
+            }
+          })}
           error={errors?.fullName?.message}
         />
 
@@ -75,7 +92,13 @@ const PersonalInfoForm = () => {
           id="jobTitle"
           placeholder="e.g. Software Engineer"
           required
-          {...register('jobTitle', { required: 'Job title is required' })}
+          {...register('jobTitle', { 
+            required: 'Job title is required',
+            minLength: {
+              value: 2,
+              message: 'Job title must be at least 2 characters'
+            }
+          })}
           error={errors?.jobTitle?.message}
         />
 
@@ -85,7 +108,13 @@ const PersonalInfoForm = () => {
           type="email"
           placeholder="john@example.com"
           required
-          {...register('email', validation?.email)}
+          {...register('email', {
+            required: 'Email is required',
+            pattern: {
+              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+              message: 'Invalid email address'
+            }
+          })}
           error={errors?.email?.message}
         />
 
@@ -96,7 +125,13 @@ const PersonalInfoForm = () => {
           inputMode="numeric"
           placeholder="1234567890"
           required
-          {...register('phone', validation?.phone)}
+          {...register('phone', {
+            required: 'Phone number is required',
+            pattern: {
+              value: /^[0-9]{10}$/,
+              message: 'Phone number must be 10 digits'
+            }
+          })}
           onInput={(e) => {
             e.target.value = e?.target?.value?.replace(/\D/g, '')?.slice(0, 10);
           }}

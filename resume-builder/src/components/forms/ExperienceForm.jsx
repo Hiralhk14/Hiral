@@ -21,8 +21,20 @@ const ExperienceForm = () => {
     reset,
     setValue,
     watch,
+    trigger,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    mode: 'onTouched',
+    defaultValues: {
+      jobTitle: '',
+      company: '',
+      location: '',
+      startDate: '',
+      endDate: '',
+      isCurrent: false,
+      description: ''
+    }
+  });
 
   const handleAdd = () => {
     reset({
@@ -55,11 +67,25 @@ const ExperienceForm = () => {
     setEditingId(null);
   };
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data, e) => {
+    e?.preventDefault();
+
+    // Trigger validation for all fields
+    const isValid = await trigger();
+
+    if (!isValid) {
+      toast.error('Please fill in all required fields correctly');
+      return;
+    }
+    // Rest of your existing form submission logic
+    const experienceData = {
+      ...data,
+      id: editingId || Date?.now()?.toString(),
+    };
     if (editingId) {
-      dispatch(updateExperience({ id: editingId, ...data }));
+      dispatch(updateExperience(experienceData));
     } else {
-      dispatch(addExperience(data));
+      dispatch(addExperience(experienceData));
     }
     reset();
     setIsAdding(false);
@@ -89,15 +115,20 @@ const ExperienceForm = () => {
       </div>
 
       {(isAdding || editingId !== null) && (
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg" noValidate>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Input
               label="Job Title"
               id="jobTitle"
               placeholder="e.g. Senior Software Engineer"
               required
-              {...register('jobTitle', { required: 'Job title is required' })}
-              error={errors?.jobTitle?.message}
+              {...register('jobTitle', {
+                required: 'Job title is required',
+                minLength: {
+                  value: 2,
+                  message: 'Job title must be at least 2 characters'
+                }
+              })} error={errors?.jobTitle?.message}
             />
 
             <Input
@@ -105,8 +136,13 @@ const ExperienceForm = () => {
               id="company"
               placeholder="Company Name"
               required
-              {...register('company', { required: 'Company name is required' })}
-              error={errors?.company?.message}
+              {...register('company', {
+                required: 'Company name is required',
+                minLength: {
+                  value: 2,
+                  message: 'Company name must be at least 2 characters'
+                }
+              })} error={errors?.company?.message}
             />
 
             <Input
@@ -127,8 +163,9 @@ const ExperienceForm = () => {
                 type="month"
                 placeholder="Start Date"
                 required
-                {...register('startDate', { required: 'Start date is required' })}
-                error={errors?.startDate?.message}
+                {...register('startDate', {
+                  required: 'Start date is required'
+                })} error={errors?.startDate?.message}
               />
               <div className="flex items-center space-x-2">
                 <Input
@@ -169,7 +206,12 @@ const ExperienceForm = () => {
             id="description"
             rows={4}
             placeholder="Describe your responsibilities and achievements..."
-            {...register('description')}
+            {...register('description', {
+              maxLength: {
+                value: 500,
+                message: 'Description should not exceed 500 characters'
+              }
+            })}
           />
 
           <div className="flex justify-end space-x-3 pt-2">
